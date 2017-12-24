@@ -1,3 +1,4 @@
-GetMovieMetadataIntent show me info for part {sequel}
+GetMovieMetadataIntent tell me about for part {sequel}
 GetMovieMetadataIntent my favorite is part {sequel}
 GetMovieMetadataIntent part {sequel}
+GetMovieMetadataIntent {sequel}
