@@ -1,0 +1,13 @@
+{
+  "intents": [
+    {
+      "intent": "GetMovieMetadataIntent",
+      "slots": [
+        {
+          "name": "sequel",
+          "type": "AMAZON.NUMBER"
+        }
+      ]
+    }
+  ]
+}

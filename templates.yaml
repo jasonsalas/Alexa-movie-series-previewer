@@ -1,0 +1,12 @@
+welcome: |
+  <speak>
+    welcome to camp crystal lake counselor training.
+    <audio src='https://jasonsalas.com/kuam/podcast/jason-fridaythe13th.mp3'/>
+    which of the sequels in the series interests you most? 
+  </speak>
+    
+reprompt: once again, which movie in the friday the thirteenth series would you like to know about?
+
+movie_info: Here's what I have for {{ title }}. {{ plot }} The film was released in {{ year }}, and is rated {{ imdb_rating }} on I-M-D-B.
+
+card_text: <img src='{{ poster }}'/><br/><b>{{ title }}</b><br/>{{ plot }}<br/>IMDb rating - {{ imdb_rating }}
