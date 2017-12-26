@@ -1,6 +1,6 @@
 import logging
 import json
-
+import movie_series
 from flask import Flask, render_template
 from flask_ask import Ask, statement, question
 from six.moves.urllib.request import urlopen
@@ -10,27 +10,6 @@ ask = Ask(app, '/')
 
 logging.getLogger('flask_ask').setLevel(logging.DEBUG)
 OMDB_API_URL = 'http://www.omdbapi.com/?apikey=<YOUR_API_KEY_HERE>&i='
-
-# IMDb IDs for the film series
-FRIDAY_FILMS = {}
-FRIDAY_FILMS['Part1'] = 'tt0080761'
-FRIDAY_FILMS['Part2'] = 'tt0082418'
-FRIDAY_FILMS['Part3'] = 'tt0083972'
-FRIDAY_FILMS['Part4'] = 'tt0087298'
-FRIDAY_FILMS['Part5'] = 'tt0089173'
-FRIDAY_FILMS['Part6'] = 'tt0091080'
-FRIDAY_FILMS['Part7'] = 'tt0095179'
-FRIDAY_FILMS['Part8'] = 'tt0097388'
-
-TITLES = {}
-TITLES['Part1'] = 'Part 1'
-TITLES['Part2'] = 'Part 2'
-TITLES['Part3'] = 'Part 3'
-TITLES['Part4'] = 'Part 4: The Final Chapter'
-TITLES['Part5'] = 'Part 5: A New Beginning'
-TITLES['Part6'] = 'Part 6: Jason Lives'
-TITLES['Part7'] = 'Part 7: The New Blood'
-TITLES['Part8'] = 'Part 8: Jason Takes Manhattan'
 
 @app.route('/')
 def homepage():
@@ -44,7 +23,7 @@ def launch():
 
 @ask.intent('GetMovieMetadataIntent', convert={'sequel':int})
 def get_movie_metadata(sequel):
-	movie_url = OMDB_API_URL + FRIDAY_FILMS['Part'+str(sequel)]
+	movie_url = OMDB_API_URL + movie_series.FILMS['Part'+str(sequel)]
 	omdb_api = urlopen(movie_url).read().decode('utf-8')
 	metadata = json.loads(omdb_api)
 	title = metadata['Title']
@@ -59,7 +38,7 @@ def get_movie_metadata(sequel):
 
 @ask.intent('FilmsInSeriesIntent')
 def films_in_series():
-	movies = ', '.join(sorted(TITLES.values()))
+	movies = ', '.join(sorted(movie_series.TITLES.values()))
 	available_movies = render_template('available_movies', movies=movies)
 	return question(available_movies).reprompt(reprompt_text)
 
