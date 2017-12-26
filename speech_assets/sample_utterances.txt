@@ -2,3 +2,10 @@ GetMovieMetadataIntent tell me about part {sequel}
 GetMovieMetadataIntent my favorite is part {sequel}
 GetMovieMetadataIntent part {sequel}
 GetMovieMetadataIntent {sequel}
+
+FilmsInSeriesIntent what films are in the series
+FilmsInSeriesIntent what movies are in the series
+FilmsInSeriesIntent which movies
+FilmsInSeriesIntent what movies
+FilmsInSeriesIntent tell me more
+FilmsInSeriesIntent tell me about friday the thirteenth
