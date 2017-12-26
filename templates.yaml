@@ -1,3 +1,5 @@
+greeting: <h1><p><b>Friday the 13th Facts</b></p> <p>invoke with <i>"alexa, (launch|ask) crystal lake tour guide</i>"</p> <p><a href='https://github.com/jasonsalas/Alexa-movie-series-previewer/blob/master/speech_assets/sample_utterances.txt'>interact with the skill</a></p></h1>
+
 welcome: |
   <speak>
     welcome to camp crystal lake counselor training.
@@ -7,6 +9,19 @@ welcome: |
     
 reprompt: once again, which movie in the friday the thirteenth series would you like to know about?
 
-movie_info: Here's what I have for {{ title }}. {{ plot }} The film was released in {{ year }}, and is rated {{ imdb_rating }} on I-M-D-B.
+movie_info: |
+    Here's what I have for {{ title }}. 
+    {{ plot }} The film was released in {{ year }}, 
+    and is rated {{ imdb_rating }} on I-M-D-B, 
+    with a score of {{ rt_score }} on Rotten Tomatoes.
 
-card_text: <img src='{{ poster }}'/><br/><b>{{ title }}</b><br/>{{ plot }}<br/>IMDb rating - {{ imdb_rating }}
+card_text: |
+  {{ plot }} 
+  IMDb rating: {{ rating }} 
+  Rotten Tomatoes score: {{ rt_score }}
+
+available_movies: i can tell you about these films, {{ movies }}. which would you like?
+
+goodbye: on behalf of Pamela Voorhees and our staff, goodbye.
+
+help: tell me the number of any film in the friday the thirteenth series, one through eight, and i'll tell you about it. which film interests you?

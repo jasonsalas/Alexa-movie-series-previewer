@@ -22,6 +22,20 @@ FRIDAY_FILMS['Part6'] = 'tt0091080'
 FRIDAY_FILMS['Part7'] = 'tt0095179'
 FRIDAY_FILMS['Part8'] = 'tt0097388'
 
+TITLES = {}
+TITLES['Part1'] = 'Part 1'
+TITLES['Part2'] = 'Part 2'
+TITLES['Part3'] = 'Part 3'
+TITLES['Part4'] = 'Part 4: The Final Chapter'
+TITLES['Part5'] = 'Part 5: A New Beginning'
+TITLES['Part6'] = 'Part 6: Jason Lives'
+TITLES['Part7'] = 'Part 7: The New Blood'
+TITLES['Part8'] = 'Part 8: Jason Takes Manhattan'
+
+@app.route('/')
+def homepage():
+	return render_template('greeting')
+
 @ask.launch
 def launch():
 	welcome_text = render_template('welcome')
@@ -38,9 +52,32 @@ def get_movie_metadata(sequel):
 	plot = metadata['Plot']
 	poster = metadata['Poster']
 	rating = metadata['imdbRating']
-	movie_info_text = render_template('movie_info', title=title, plot=plot, year=year, imdb_rating=rating)
-	card_text = '{}\nIMDb rating: {}'.format(plot, rating)
+	rotten_tomatoes_score = metadata['Ratings'][1]['Value']	
+	movie_info_text = render_template('movie_info', title=title, plot=plot, year=year, imdb_rating=rating, rt_score=rotten_tomatoes_score)
+	card_text = render_template('card_text', plot=plot, rating=rating, rt_score=rotten_tomatoes_score)
 	return statement(movie_info_text).standard_card(title=title, text=card_text, small_image_url=poster)
+
+@ask.intent('FilmsInSeriesIntent')
+def films_in_series():
+	movies = ', '.join(sorted(TITLES.values()))
+	available_movies = render_template('available_movies', movies=movies)
+	return question(available_movies).reprompt(reprompt_text)
+
+@ask.intent('AMAZON.HelpIntent')
+def help():
+	help_text = render_template('help')
+	reprompt_text = render_template('reprompt')
+	return question(help_text).reprompt(reprompt_text)
+
+@ask.intent('AMAZON.StopIntent')
+def stop():
+	bye = render_template('goodbye')
+	return statement(bye)
+
+@ask.intent('AMAZON.CancelIntent')
+def cancel():
+	bye = render_template('goodbye')
+	return statement(bye)
 
 @ask.session_ended
 def session_ended():
@@ -48,4 +85,8 @@ def session_ended():
 
 
 if __name__ == '__main__':
+	if 'ASK_VERIFY_REQUESTS' in os.environ:
+		verify = str(os.environ.get('ASK_VERIFY_REQUESTS', '')).lower()
+		if verify == 'false':
+			app.config['ASK_VERIFY_REQUESTS'] = False
 	app.run(debug=True)
